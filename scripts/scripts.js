@@ -11,6 +11,8 @@ import {
   waitForLCP,
   loadBlocks,
   loadCSS,
+  toClassName,
+  getMetadata,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
@@ -70,6 +72,45 @@ export function decorateMain(main) {
 }
 
 /**
+ * Builds template block and adds to main as sections.
+ * @param {Element} main The container element.
+ * @returns {Promise} Resolves when the template block(s) have
+ *  been loaded.
+ */
+async function decorateTemplate(main) {
+  const template = toClassName(getMetadata('template'));
+  console.log(template);
+  if (!template || template === 'generic') {
+    return;
+  }
+
+  try {
+    const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/templates/${template}/${template}.css`);
+    const decorationComplete = new Promise((resolve) => {
+      (async () => {
+        try {
+          templateModule = await import(`../templates/${template}/${template}.js`);
+          if (templateModule?.loadEager) {
+            await templateModule.loadEager(main);
+          }
+        } catch (error) {
+          if (error.message === '404') {
+            window.location.replace('/404.html');
+          }
+          // eslint-disable-next-line no-console
+          console.log(`failed to load template for ${template}`, error);
+        }
+        resolve();
+      })();
+    });
+    await Promise.all([cssLoaded, decorationComplete]);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(`failed to load template ${template}`, error);
+  }
+}
+
+/**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
  */
@@ -79,6 +120,7 @@ async function loadEager(doc) {
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
+    await decorateTemplate(main);
     document.body.classList.add('appear');
     await waitForLCP(LCP_BLOCKS);
   }
