@@ -16,6 +16,7 @@ import {
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
+let templateModule;
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -79,7 +80,6 @@ export function decorateMain(main) {
  */
 async function decorateTemplate(main) {
   const template = toClassName(getMetadata('template'));
-  console.log(template);
   if (!template || template === 'generic') {
     return;
   }
@@ -141,6 +141,9 @@ async function loadEager(doc) {
  */
 async function loadLazy(doc) {
   const main = doc.querySelector('main');
+  if (templateModule?.loadLazy) {
+    templateModule.loadLazy(main);
+  }
   await loadBlocks(main);
 
   const { hash } = window.location;
