@@ -1,0 +1,34 @@
+.updated-state-section {
+ display: grid;
+ margin: auto;
+ padding-top: 4rem;
+ grid-template-areas:
+   "name name"
+   "attr attr"
+   "pic1 des1"
+   "des2 pic2";
+}
+
+.updated-state-section .default-content-wrapper {
+ grid-area: name;
+}
+
+.updated-state-section .columns.attributes {
+ grid-area: attr;
+}
+
+.updated-state-section .state-pic1 {
+ grid-area: pic1;
+}
+
+.updated-state-section .state-pic2 {
+ grid-area: pic2;
+}
+
+.updated-state-section .state-des1 {
+ grid-area: des1;
+}
+
+.updated-state-section .state-des2 {
+ grid-area: des2;
+}
