@@ -12,7 +12,7 @@ Suppose we're working with a page that lists basic information for all 50 US sta
 </p>
 Our goal is to present each section on the webpage as illustrated here (though real-world applications may be significantly more complex):
 <p align="center">
-<img src="https://github.com/FentPams/helix-website-tbt/blob/main/readme-pic/page-section-sample.png" width="50%">
+<img src="https://github.com/FentPams/helix-website-tbt/blob/main/readme-pic/state-overview.png" width="50%">
 </p>
 To achieve this, we'll be using both JavaScript and CSS. The relevant resources are:
 
