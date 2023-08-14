@@ -30,7 +30,22 @@ function updateSection(section) {
  section.appendChild(updatedStateSection);
 }
 
+function observeSection(section) {
+ const observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+   if (mutation.attributeName !== 'class') {
+    return;
+   }
+   if (mutation.target.classList.contains('attributes')) {
+    updateSection(section);
+   }
+  });
+ });
+
+ observer.observe(section, {attributes: true, subtree: true});
+}
+
 export function loadLazy() {
  const stateSections = Array.from(document.querySelectorAll('.section.state'));
- stateSections.forEach(updateSection);
+ stateSections.forEach(observeSection);
 }
