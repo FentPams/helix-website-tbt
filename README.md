@@ -3,7 +3,7 @@ This repository aims to:
 - Reproduce the long TBT issue observed when a single page contains repeated sections (particularly more than 10) with redundant block or CSS usage.
 - Provide two potential solutions to the long TBT issue and evaluate their advantages and disadvantages
 
-P.S. I noticed this issue when I was implementing my intern project [petplace.com/traveling-with-a-pet](https://www.petplace.com/traveling-with-a-pet).
+P.S. I noticed this issue when I was implementing my intern project [petplace.com/traveling-with-a-pet](https://www.petplace.com/traveling-with-a-pet). Thanks to my mentor [@ramboz](https://github.com/ramboz) for inspiring me and guiding me through the process :)
 
 ## Reproduce issue
 Suppose we're working with a page that lists basic information for all 50 US states. Each state's information is contained within a distinct section in this [document](https://docs.google.com/document/d/1eR4imhaU5-Bm_lBGzXwsSB-uitXKdGggHQt1NvzQOlg/edit?usp=sharing), as shown below:
@@ -19,7 +19,7 @@ To achieve this, we'll be using both JavaScript and CSS. The relevant resources 
 - js: [updateSection()](https://github.com/FentPams/helix-website-tbt/blob/main/templates/states-page/states-page.js#L1) 
 - css: [states_page.css](https://github.com/FentPams/helix-website-tbt/blob/main/templates/states-page/states-page.css)
 
-Given that the page layout typically waits for the block decoration to finalize (for instance, waiting for a class name to be added to the block before extracting the element to the parent grid div), this process should also occur in the lazy loading phase. Should we implement sections as illustrated below:
+Given the section "decorate" should align with block decorate, this process should also occur in the lazy loading phase. We could implement sections as illustrated below:
 
 [Code Reference](https://github.com/FentPams/helix-website-tbt/blob/main/templates/states-page/states-page.js#L33-L36)
 ```Java
@@ -115,12 +115,12 @@ As we can see on the page [solution-2--helix-website-tbt--fentpams.hlx.page/stat
 |   | Solution 1 - Meter Call  | Soltuion 2 - Mutation Observer  |
 |---|---|---|
 | Link  | [https://solution-1--helix-website-tbt--fentpams.hlx.page/states](https://solution-1--helix-website-tbt--fentpams.hlx.page/states)  |  [https://solution-2--helix-website-tbt--fentpams.hlx.page/states](https://solution-2--helix-website-tbt--fentpams.hlx.page/states) |
-| Pros  | <ul><li>break down long task into small groups to reduce the chances to block the CPU/GPU for too long</li></ul> | <ul><li>facilitates the rapid and individual updating of sections through callback</li><li>able to handle race condition issue with block decoration</li></ul>  |
-| Cons  | <ul><li>can not deal with race condition issue with blocks</li><li>Increase latency to load page as it leverage `setTimeout()`</li></ul>  |  <ul><li>Use mutation observer may have a negative performance impact</li></ul> |
+| Pros  | <ul><li>Break down long tasks into small groups to reduce the chances to block the CPU/GPU for too long</li></ul> | <ul><li>Facilitate the rapid and individual updating of sections through callback</li><li>Able to handle race condition issue with block decoration</li></ul>  |
+| Cons  | <ul><li>Can not deal with race condition issue with blocks</li><li>Increase latency to load page as it leverages `setTimeout()`</li></ul>  |  <ul><li>Use mutation observer may have a negative performance impact</li></ul> |
 
 ## Reference
 - [https://main--my-helix-website--fentpams.hlx.live/tbt-detailed-solution](https://main--my-helix-website--fentpams.hlx.live/tbt-detailed-solution)
-
+- [https://main--my-helix-website--fentpams.hlx.live](https://main--my-helix-website--fentpams.hlx.live)
 
 ## Environments
 - Preview: https://main--helix-website-tbt--fentpams.hlx.page/states
