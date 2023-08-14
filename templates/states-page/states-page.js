@@ -1,4 +1,4 @@
-function updateSection(section) {
+async function updateSection(section) {
  // extract grid elements 
  const defaultContent = section.querySelector('.default-content-wrapper');
  const attributes = section.querySelector('.columns.attributes');
@@ -30,7 +30,31 @@ function updateSection(section) {
  section.appendChild(updatedStateSection);
 }
 
+let queue = 0;
+/**
+ * Perform some metering on a repeated function call to reduce the chances to block the CPU/GPU
+ * for too long.
+ * @param {function} fn The function to execute repeatedly
+ * @param {number} [wait] The delay to wait between batch executions, defaults to 200ms
+ * @param {number} [max] The number of function executions to trigger on each pass, defaults to 5
+ * @returns a promise that the functions were all called
+ */
+export async function meterCalls(fn, wait = 200, max = 5) {
+ queue += 1;
+ return new Promise((resolve) => {
+  window.requestAnimationFrame(async () => {
+   await fn.call(null);
+   if (queue >= max) {
+    queue -= max;
+    resolve()
+   } else {
+    resolve();
+   }
+  });
+ });
+}
+
 export function loadLazy() {
  const stateSections = Array.from(document.querySelectorAll('.section.state'));
- stateSections.forEach(updateSection);
+ stateSections.forEach((section) => meterCalls(() => updateSection(section)));
 }
