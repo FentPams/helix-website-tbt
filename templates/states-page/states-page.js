@@ -1,4 +1,5 @@
 function updateSection(section) {
+ // extract grid elements 
  const defaultContent = section.querySelector('.default-content-wrapper');
  const attributes = section.querySelector('.columns.attributes');
  const ps = section.querySelectorAll('p');
@@ -11,6 +12,7 @@ function updateSection(section) {
  const p2 = ps[3];
  p2.classList.add('state-des2');
 
+ // create updated state section
  const updatedStateSection = document.createElement('div');
  updatedStateSection.classList.add('updated-state-section');
  updatedStateSection.appendChild(defaultContent);
@@ -28,11 +30,7 @@ function updateSection(section) {
  section.appendChild(updatedStateSection);
 }
 
-
-export function loadEager() {
- return false;
-}
-
 export function loadLazy() {
- return false;
+ const stateSections = Array.from(document.querySelectorAll('.section.state'));
+ stateSections.forEach(updateSection);
 }
