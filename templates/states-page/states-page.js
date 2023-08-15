@@ -46,7 +46,7 @@ export async function meterCalls(fn, wait = 200, max = 5) {
    await fn.call(null);
    if (queue >= max) {
     queue -= max;
-    resolve()
+    setTimeout(() => resolve(),wait);
    } else {
     resolve();
    }
